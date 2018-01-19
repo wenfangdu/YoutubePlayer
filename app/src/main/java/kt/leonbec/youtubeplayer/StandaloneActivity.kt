@@ -1,8 +1,10 @@
 package kt.leonbec.youtubeplayer
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_standalone.*
 
@@ -17,6 +19,15 @@ class StandaloneActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-
+        val intent = when (v?.id) {
+            R.id.btnPlayVideo -> YouTubeStandalonePlayer.createVideoIntent(
+                    this, getString(R.string.GOOGLE_API_KEY), YOUTUBE_VIDEO_ID, 0, true, true
+            )
+            R.id.btnPlaylist -> YouTubeStandalonePlayer.createPlaylistIntent(
+                    this, getString(R.string.GOOGLE_API_KEY), YOUTUBE_PLAYLIST, 0, 0, true, true
+            )
+            else -> throw IllegalArgumentException("Undefined button clicked")
+        }
+        startActivity(intent)
     }
 }
